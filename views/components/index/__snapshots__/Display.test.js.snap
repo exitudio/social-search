@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Display component should match snapshot 1`] = `
+ShallowWrapper {
+  "complexSelector": ComplexSelector {
+    "buildPredicate": [Function],
+    "childrenOfNode": [Function],
+    "findWhereUnwrapped": [Function],
+  },
+  "length": 1,
+  "node": <div
+    onClick={[Function]}
+    style={
+        Object {
+            "backgroundColor": "red",
+            "height": "100px",
+            "width": "100px",
+          }
+    }
+>
+    <div />
+    <Content
+        text="abc"
+    />
+</div>,
+  "nodes": Array [
+    <div
+      onClick={[Function]}
+      style={
+            Object {
+                  "backgroundColor": "red",
+                  "height": "100px",
+                  "width": "100px",
+                }
+      }
+>
+      <div />
+      <Content
+            text="abc"
+      />
+</div>,
+  ],
+  "options": Object {},
+  "renderer": ReactShallowRenderer {
+    "_instance": ShallowComponentWrapper {
+      "_calledComponentWillUnmount": false,
+      "_compositeType": 0,
+      "_context": Object {},
+      "_currentElement": <Display />,
+      "_debugID": 1,
+      "_hostContainerInfo": null,
+      "_hostParent": null,
+      "_instance": Display {
+        "_reactInternalInstance": [Circular],
+        "clickMe": [Function],
+        "context": Object {},
+        "props": Object {},
+        "refs": Object {},
+        "state": null,
+        "updater": Object {
+          "enqueueCallback": [Function],
+          "enqueueCallbackInternal": [Function],
+          "enqueueElementInternal": [Function],
+          "enqueueForceUpdate": [Function],
+          "enqueueReplaceState": [Function],
+          "enqueueSetState": [Function],
+          "isMounted": [Function],
+          "validateCallback": [Function],
+        },
+      },
+      "_mountOrder": 1,
+      "_pendingCallbacks": null,
+      "_pendingElement": null,
+      "_pendingForceUpdate": false,
+      "_pendingReplaceState": false,
+      "_pendingStateQueue": null,
+      "_renderedComponent": NoopInternalComponent {
+        "_currentElement": <div
+          onClick={[Function]}
+          style={
+                    Object {
+                              "backgroundColor": "red",
+                              "height": "100px",
+                              "width": "100px",
+                            }
+          }
+>
+          <div />
+          <Content
+                    text="abc"
+          />
+</div>,
+        "_debugID": 2,
+        "_renderedOutput": <div
+          onClick={[Function]}
+          style={
+                    Object {
+                              "backgroundColor": "red",
+                              "height": "100px",
+                              "width": "100px",
+                            }
+          }
+>
+          <div />
+          <Content
+                    text="abc"
+          />
+</div>,
+      },
+      "_renderedNodeType": 0,
+      "_rootNodeID": 0,
+      "_topLevelWrapper": null,
+      "_updateBatchNumber": null,
+      "_warnedAboutRefsInRender": false,
+    },
+    "getRenderOutput": [Function],
+    "render": [Function],
+  },
+  "root": [Circular],
+  "unrendered": <Display />,
+}
+`;
