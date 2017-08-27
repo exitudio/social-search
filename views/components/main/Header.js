@@ -67,8 +67,7 @@ export default class Header extends React.Component {
                     </div>
                 </div>
 
-                <style jsx>
-                    {`
+                <style jsx>{`
                     /*default menu */
                     .navbar-brand {
                         float: left;

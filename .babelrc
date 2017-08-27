@@ -1,4 +1,10 @@
 {
-  "presets": ["es2015", "stage-2", "react"],
-  "plugins": []
+  "presets": [
+    "next/babel"
+  ],
+  "plugins": [
+    [
+      "babel-plugin-root-import"
+    ]
+  ]
 }
