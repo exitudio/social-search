@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import Layout from '~/views/components/main/Layout'
 import withRedux from 'next-redux-wrapper'
 import { initStore} from '~/views/redux/store'
@@ -8,25 +9,22 @@ import InputText from '~/views/components/shareComponent/inputText/InputText'
 import Button from '~/views/components/shareComponent/button/Button'
 import Dropdown from '~/views/components/shareComponent/dropdown/Dropdown'
 
-import FBLogin from '~/views/libs/facebookGraphAPI/FBLogin'
-import FBFeed from '~/views/libs/facebookGraphAPI/FBFeed'
-
 class Search extends React.Component{
     componentDidMount(){
-        this.fbLogin = new FBLogin('1956718501021643', this.loggedIn, this.notLoggedIn)
-        this.fbFeed = new FBFeed(this.fbLogin)
-    }
-    login= e=>{
-        this.fbLogin.login(this.loggedIn)
-    }
-    loggedIn = ()=>{
-        console.log('logged in : ',this.fbLogin)
-        // this.fbFeed.test()
-    }
-    notLoggedIn = ()=>{
-        console.log('not logged in : ',this.fbLogin)
     }
     render(){
+        const SearchContainer = styled.div`
+            .search-wrapper{
+                display: flex;
+                .input-text{
+                    width: 100%;
+                    flex-grow: 1;
+                }
+                .search-button{
+                    margin-left: 2px;
+                }
+            }
+        `
         return <div className="container index-page">
                     <div style={{height:'100px'}}/>
                     <Dropdown dataArray={[

@@ -1,6 +1,10 @@
 import React from 'react'
 import * as ConfigStyle from './configStyle'
 export default () => <style jsx global>{`
+    body{
+        {/* font-family: "Lato",Arial,Helvetica,sans-serif !important; */}
+        font-family: Helvetica, Arial, sans-serif !important;
+    }
     .container {
         padding-right: 15px;
         padding-left: 15px;
@@ -48,7 +52,7 @@ export default () => <style jsx global>{`
         color: white;
         width:fit-content;
     }
-    .button .disable{
+    .button.disable{
         opacity: 0.3;
         cursor: default;
     }

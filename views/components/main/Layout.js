@@ -4,10 +4,10 @@ import MainStyle from './style/MainStyle'
 export default class Index extends React.Component{
     componentDidMount(){
         //non blocking load font : https://github.com/zeit/next.js/issues/512 
-        const link = document.createElement('link')
+        /*const link = document.createElement('link')
         link.href = 'https://fonts.googleapis.com/css?family=Lato'
         link.rel = 'stylesheet'
-        document.head.appendChild(link)
+        document.head.appendChild(link)*/
     }
     render(){
         return <div>

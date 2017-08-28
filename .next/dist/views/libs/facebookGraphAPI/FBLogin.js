@@ -11,45 +11,48 @@ var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /****************************************************************
- * add Valid OAuth redirect URIs : "[http://localhost/] [http://localhost:3000/signin-facebook]" 
+ * add Valid OAuth redirect URIs : "[http://localhost:3000/]
  *to avoid blocking redirect URI
  ****************************************************************/
 
-var FBLogin = function FBLogin(appId, loggedIn, notLoggedIn) {
+var FBLogin = function FBLogin(appId, onFBStatusChanged) {
     var _this = this;
 
     (0, _classCallCheck3.default)(this, FBLogin);
 
-    this._updateStatus = function (response) {
-        console.log('updateStatus', response, _this.loginType);
+    this._changeStatus = function (status) {
+        _this.status = status;
+        _this.onFBStatusChanged(status);
+    };
 
-        _this.status = response.status;
+    this._updateStatus = function (response) {
+        console.log('updateStatus', response);
+
         _this.authResponse = response.authResponse;
-        if (response && response.authResponse) {
-            _this.loggedIn();
+        if (response && response.authResponse && response.status === 'connected') {
+            _this._changeStatus(FBLogin.CONNECTED);
         } else {
-            _this.notLoggedIn();
+            _this._changeStatus(FBLogin.NOT_AUTHORIZED);
         }
     };
 
     this.login = function () {
-        _this.loginType = FBLogin.CLICK_LOGIN;
-        // this.FB.login( this._updateStatus, {scope:'user_posts'} )
-        _this.FB.logout(function () {
-            console.log('logout');
-        });
+        _this.FB.login(_this._updateStatus, { scope: 'user_posts, user_likes, user_friends' });
     };
 
-    this.relogin = function () {
+    this.logout = function () {
+        _this.FB.logout(_this._updateStatus);
+    };
+
+    this.getStatus = function () {
+        _this._changeStatus(FBLogin.CHECKING);
         _this.FB.getLoginStatus(_this._updateStatus);
     };
 
-    this.status = FBLogin.NOT_AUTHORIZED;
+    this.status = FBLogin.CHECKING;
     this.appId = appId;
     this.authResponse = null;
-    this.loggedIn = loggedIn;
-    this.notLoggedIn = notLoggedIn;
-    this.loginType = FBLogin.NOT_LOGIN;
+    this.onFBStatusChanged = onFBStatusChanged;
 
     //callback when facekbook sdk loaded
     window.fbAsyncInit = function () {
@@ -64,8 +67,7 @@ var FBLogin = function FBLogin(appId, loggedIn, notLoggedIn) {
 
         //get status
         //not login : {authResponse: undefined, status: "not_authorized"}
-        _this.type = FBLogin.AUTO_LOGIN;
-        _this.relogin();
+        _this.getStatus();
     }
 
     //facebook sdk
@@ -84,9 +86,7 @@ var FBLogin = function FBLogin(appId, loggedIn, notLoggedIn) {
 //call me by button clicking
 ;
 
+FBLogin.CHECKING = 'checking';
 FBLogin.CONNECTED = 'connected';
 FBLogin.NOT_AUTHORIZED = 'not_authorized';
-FBLogin.NOT_LOGIN = 'auto_login';
-FBLogin.AUTO_LOGIN = 'auto_login';
-FBLogin.CLICK_LOGIN = 'click_login';
 exports.default = FBLogin;

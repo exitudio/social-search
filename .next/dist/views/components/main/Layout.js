@@ -51,10 +51,10 @@ var Index = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             //non blocking load font : https://github.com/zeit/next.js/issues/512 
-            var link = document.createElement('link');
-            link.href = 'https://fonts.googleapis.com/css?family=Lato';
-            link.rel = 'stylesheet';
-            document.head.appendChild(link);
+            /*const link = document.createElement('link')
+            link.href = 'https://fonts.googleapis.com/css?family=Lato'
+            link.rel = 'stylesheet'
+            document.head.appendChild(link)*/
         }
     }, {
         key: 'render',

@@ -1,10 +1,10 @@
 import React from 'react'
-import withRedux from 'next-redux-wrapper'
-import { initStore } from '../views/redux/store'
+import { reduxPage } from '../views/redux/store'
 
 import Layout from '~/views/components/main/Layout'
 import Button from '~/views/components/shareComponent/button/Button'
-import Search from '~/views/components/index/Search'
+import Search from '~/views/components/index/search/Search'
+import DropdownPagesPeople from '~/views/components/index/search/DropdownPagesPeople'
 
 import FBLogin from '~/views/libs/facebookGraphAPI/FBLogin'
 import FBFeed from '~/views/libs/facebookGraphAPI/FBFeed'
@@ -13,32 +13,39 @@ class Index extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            status: FBLogin.NOT_AUTHORIZED
+            status: FBLogin.CHECKING
         }
     }
     componentDidMount() {
-        this.fbLogin = new FBLogin('1956718501021643', this.loggedIn, this.notLoggedIn)
+        this.fbLogin = new FBLogin('1245609988878153', this.onFBStatusChanged) //'1956718501021643'
         this.fbFeed = new FBFeed(this.fbLogin)
     }
     login = e => {
-        this.fbLogin.login(this.loggedIn)
+        this.fbLogin.login()
     }
-    loggedIn = () => {
-        console.log('logged in : ', this.fbLogin)
-        // this.fbFeed.test()
-        this.setState({...this.state, status: this.fbLogin.status })
+    logout = e =>{
+        this.fbLogin.logout()
     }
-    notLoggedIn = () => {
-        console.log('not logged in : ', this.fbLogin)
-        this.setState({...this.state, status: this.fbLogin.status })
+    test = ()=>{
+        this.fbFeed.test()
+    }
+
+    onFBStatusChanged = status => {
+        this.setState({...this.state, status })
     }
 
     loginOrSearch = ()=>{
         console.log('status', this.state)
         if(this.state.status === FBLogin.CONNECTED){
-            return <Search/>
+            return <div>
+                <Search/>
+                <Button onClick={this.test}/>
+            </div>
+        }else if(this.state.status === FBLogin.NOT_AUTHORIZED){
+            return <Button className="flex-child login-button" onClick={this.login}>Search Facebook</Button>
+        }else if(this.state.status === FBLogin.CHECKING){
+            return <Button className="flex-child login-button" disable>Checking Login</Button>
         }
-        return <Button className="flex-child login-button">Search Facebook</Button>
     }
 
     render() {
@@ -46,6 +53,7 @@ class Index extends React.Component {
             <div className="container">
                 <div className="landing">
                     <img src="/static/images/googlelogo_color_272x92dp.png" alt="" className="flex-child logo-icon"/>
+                    <DropdownPagesPeople/>
                     {this.loginOrSearch()}
                 </div>
             </div>
@@ -76,4 +84,4 @@ Index.getInitialProps = (props) => {
     // {store, isServer, pathname, query}
     // return {}
 }
-export default withRedux(initStore)(Index)
+export default reduxPage(Index)

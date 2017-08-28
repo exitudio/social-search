@@ -1,22 +1,18 @@
 /****************************************************************
- * add Valid OAuth redirect URIs : "[http://localhost/] [http://localhost:3000/signin-facebook]" 
+ * add Valid OAuth redirect URIs : "[http://localhost:3000/]
  *to avoid blocking redirect URI
  ****************************************************************/
 
 export default class FBLogin {
+    static CHECKING = 'checking'
     static CONNECTED = 'connected'
     static NOT_AUTHORIZED = 'not_authorized'
-    static NOT_LOGIN = 'auto_login'
-    static AUTO_LOGIN = 'auto_login'
-    static CLICK_LOGIN = 'click_login'
 
-    constructor(appId, loggedIn, notLoggedIn) {
-        this.status = FBLogin.NOT_AUTHORIZED
+    constructor(appId, onFBStatusChanged ) {
+        this.status = FBLogin.CHECKING
         this.appId = appId
         this.authResponse = null
-        this.loggedIn = loggedIn
-        this.notLoggedIn = notLoggedIn
-        this.loginType = FBLogin.NOT_LOGIN
+        this.onFBStatusChanged = onFBStatusChanged
 
         //callback when facekbook sdk loaded
         window.fbAsyncInit = () => {
@@ -31,8 +27,7 @@ export default class FBLogin {
 
             //get status
             //not login : {authResponse: undefined, status: "not_authorized"}
-            this.type = FBLogin.AUTO_LOGIN
-            this.relogin()
+            this.getStatus()
         }
 
             //facebook sdk
@@ -45,28 +40,32 @@ export default class FBLogin {
             }(document, 'script', 'facebook-jssdk'))
     }
 
+    _changeStatus = status =>{
+        this.status = status
+        this.onFBStatusChanged(status)
+    }
+
     _updateStatus = response => {
-        console.log('updateStatus', response, this.loginType)
+        console.log('updateStatus', response)
         
-        this.status = response.status
         this.authResponse = response.authResponse
-        if (response && response.authResponse) {
-            this.loggedIn()
+        if (response && response.authResponse && response.status === 'connected') {
+            this._changeStatus(FBLogin.CONNECTED)
         } else {
-            this.notLoggedIn()
+            this._changeStatus(FBLogin.NOT_AUTHORIZED)
         }
     }
 
     //call me by button clicking
     login = () => {
-        this.loginType = FBLogin.CLICK_LOGIN
-        // this.FB.login( this._updateStatus, {scope:'user_posts'} )
-        this.FB.logout(function(){
-            console.log('logout')
-        })
+        this.FB.login( this._updateStatus, {scope:'user_posts, user_likes, user_friends'} )
+    }
+    logout = () => {
+        this.FB.logout( this._updateStatus)
     }
 
-    relogin = () =>{
+    getStatus = () =>{
+        this._changeStatus(FBLogin.CHECKING)
         this.FB.getLoginStatus( this._updateStatus )
     }
 }
