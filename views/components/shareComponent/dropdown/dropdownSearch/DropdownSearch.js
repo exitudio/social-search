@@ -30,7 +30,9 @@ class DropdownSearch extends React.Component {
         this.setState({ ...this.state, searchText: e.target.value, selectedItem: -1, })
     }
 
-    
+    quite = ()=>{
+        this.setState({ ...this.state, isSearching: false, selectedItem: -1,  })
+    }
 
     onKeyDown = e=>{
         console.log(e.keyCode)
@@ -53,7 +55,7 @@ class DropdownSearch extends React.Component {
             this.setState({ ...this.state, searchText: this.props.data[this.state.selectedItem].name, isSearching: false })
         }else if(e.keyCode===27){
             // escape
-            this.handleClickOutside()
+            this.quite()
         }
     }
 
@@ -67,7 +69,7 @@ class DropdownSearch extends React.Component {
             const _this = this
             class searchDiv extends React.Component{
                 handleClickOutside = e => {
-                    _this.setState({ ..._this.state, isSearching: false, selectedItem: -1,  })
+                    _this.quite()
                 }
                 render(){
                     return <div>

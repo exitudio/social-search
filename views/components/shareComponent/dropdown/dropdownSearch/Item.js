@@ -26,7 +26,6 @@ class Item extends React.Component{
         return ''
     }
     render(){
-        console.log('item render...')
         return <li onClick={this.onClick} 
                    onMouseOver={this.onMouseOver} 
                    onMouseLeave={this.onMouseLeave} 
