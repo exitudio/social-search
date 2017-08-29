@@ -29,7 +29,7 @@ export const addTransition = (variableName)=>{
 
 export const borderStyle = `
     border: 1px solid;
-    border-radius: 2px;
+    // border-radius: 2px;
 `
 
 export const inputStyle = `

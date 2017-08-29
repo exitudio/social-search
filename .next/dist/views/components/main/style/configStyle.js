@@ -30,6 +30,6 @@ var addTransition = exports.addTransition = function addTransition(variableName)
     return '-webkit-transition: ' + genAnimate() + ';\n            -moz-transition:    ' + genAnimate() + ';\n            -o-transition:      ' + genAnimate() + ';\n            transition:         ' + genAnimate() + ';';
 };
 
-var borderStyle = exports.borderStyle = '\n    border: 1px solid;\n    border-radius: 2px;\n';
+var borderStyle = exports.borderStyle = '\n    border: 1px solid;\n    // border-radius: 2px;\n';
 
 var inputStyle = exports.inputStyle = '\n    ' + addTransition('border-color') + '\n    ' + borderStyle + '\n    background-color:white;\n    border-color:' + grayMid + ';\n    color:' + grayDark + ';\n\n    height: 50px;\n    font-size: 20px;\n    padding:1px 6px 1px 6px;\n    box-sizing: border-box;';

@@ -8,7 +8,7 @@ class Item extends React.Component{
         this.state = {isOver:false}
     }
     shouldComponentUpdate( nextProps, nextState){
-        return nextProps.selected !== this.props.selected || nextState.isOver !== this.state.isOver
+        return nextProps.selected !== this.props.selected || nextState.isOver !== this.state.isOver || nextProps.children !== this.props.children
     }
     onClick = e=>{
         this.props.onClick()
@@ -26,6 +26,7 @@ class Item extends React.Component{
         return ''
     }
     render(){
+        console.log('item render...')
         return <li onClick={this.onClick} 
                    onMouseOver={this.onMouseOver} 
                    onMouseLeave={this.onMouseLeave} 
@@ -51,11 +52,12 @@ class Item extends React.Component{
                             margin: 0 20px;
                             border-top: 1px solid;
                             border-color:${ConfigStyle.grayMid};
-                            line-height: 50px;
+                            line-height: 51px;
+                            height: 51px;
                             box-sizing: border-box;
                         }
                         .item.selected .item-text, .item.over .item-text{
-                            border: none;
+                            {/* border: none; */}
                         }`}</style>
                 </li> 
     }

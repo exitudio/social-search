@@ -27,7 +27,14 @@ const FBPageReducer = (state=defaultState, action)=>{
             return {
                 ...state,
                 loadStatus: NO_LOAD_STAUTS,
-                pages: action.payload
+                pages: action.payload,
+            }
+        }
+        case FBPageAction.CLEAR_SEARCH:{
+            return {
+                ...state,
+                loadStatus: NO_LOAD_STAUTS,
+                pages: [],
             }
         }
         default:{

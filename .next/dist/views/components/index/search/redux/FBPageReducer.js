@@ -51,6 +51,13 @@ var FBPageReducer = function FBPageReducer() {
                     pages: action.payload
                 });
             }
+        case FBPageAction.CLEAR_SEARCH:
+            {
+                return (0, _extends3.default)({}, state, {
+                    loadStatus: NO_LOAD_STAUTS,
+                    pages: []
+                });
+            }
         default:
             {
                 return (0, _extends3.default)({}, state);

@@ -13,11 +13,9 @@ class DropdownSearch extends React.Component {
             searchText: '',
         }
     }
-    componentWillReceiveProps(nextProps) {
-
-    }
     onClickSearch = () => {
-        this.setState({ ...this.state, isSearching: true })
+        this.props.onSearchChange( this.state.searchText, true )
+        this.setState({ ...this.state, isSearching: true, selectedItem: -1, })
     }
     onItemClick = (i, item, e) => {
         this.setState({
@@ -29,14 +27,15 @@ class DropdownSearch extends React.Component {
     }
     onChangeText = e => {
         this.props.onSearchChange(e.target.value)
-        this.setState({ ...this.state, searchText: e.target.value })
+        this.setState({ ...this.state, searchText: e.target.value, selectedItem: -1, })
     }
 
     handleClickOutside = e => {
-        this.setState({ ...this.state, isSearching: false })
+        this.setState({ ...this.state, isSearching: false, selectedItem: -1,  })
     }
 
     onKeyDown = e=>{
+        console.log(e.keyCode)
         if(e.keyCode===38){
             // arrow up
             let nextSelectIndex = this.state.selectedItem - 1
@@ -54,20 +53,29 @@ class DropdownSearch extends React.Component {
         }else if(e.keyCode===13){
             // enter
             this.setState({ ...this.state, searchText: this.props.data[this.state.selectedItem].name, isSearching: false })
+        }else if(e.keyCode===27){
+            // escape
+            this.handleClickOutside()
         }
     }
 
     getSearchState = () => {
         if (!this.state.isSearching) {
-            const showNode = this.props.data[this.state.selectedItem] ? this.props.data[this.state.selectedItem].node : ''
+            const showNode = this.props.data[this.state.selectedItem] ? this.props.data[this.state.selectedItem].node : this.state.searchText
             return <div className="head-text" onClick={this.onClickSearch}>{showNode}</div>
         } else {
+            const getWrapperClass = ()=>this.props.data.length>0?'list':''
             return <div>
-                <input ref={child => this.inputSearch}
+                <input ref={child => { 
+                        if(child){
+                            console.log(child.value)
+                            child.selectionStart = child.selectionEnd = child.value.length
+                        }
+                    }}
                     onChange={this.onChangeText}
                     value={this.state.searchText}
                     autoFocus />
-                <ul className="items-wrapper">
+                <ul className={`items-wrapper ${getWrapperClass()}`}>
                     {this.props.data.map((item, i) => {
                         return <Item key={i}
                             selected={i === this.state.selectedItem}
@@ -78,6 +86,7 @@ class DropdownSearch extends React.Component {
         }
     }
     render() {
+        console.log('..render..', this.state)
         return <div className="dropdown-container" onKeyDown={this.onKeyDown}>
                     <div className="dropdown-search">
                         {this.getSearchState()}
@@ -85,7 +94,7 @@ class DropdownSearch extends React.Component {
                     <style jsx>{`
                         .dropdown-container{
                             width:100%;
-                            height:50px;
+                            height:54px;
                             position: relative;
                         }
                         .dropdown-search{
@@ -103,18 +112,23 @@ class DropdownSearch extends React.Component {
                         .dropdown-search :global(.head-text){
                             cursor: pointer;
                             padding:1px 6px 1px 6px;
-                            height:48px;
-                            line-height: 48px; 
+                            height:52px;
+                            line-height: 52px; 
                             box-sizing: border-box;
+                            font-size: 20px;
                         }
                         .dropdown-search :global(input){
                             border: none;
-                            {/* border-bottom: 1px solid; */}
-                            height: 48px;
+                            height: 52px;
                             width: 100%;
+                            font-family: Helvetica, Arial, sans-serif !important;
+                            font-size:20px;
                         }
                         .dropdown-search :global(.items-wrapper){
                             cursor: pointer;
+                        }
+                        .dropdown-search :global(.items-wrapper.list){
+                            padding-bottom: 20px;
                         }
                     `}</style>
                 </div>
