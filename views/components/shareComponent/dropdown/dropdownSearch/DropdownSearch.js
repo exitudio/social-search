@@ -30,9 +30,7 @@ class DropdownSearch extends React.Component {
         this.setState({ ...this.state, searchText: e.target.value, selectedItem: -1, })
     }
 
-    handleClickOutside = e => {
-        this.setState({ ...this.state, isSearching: false, selectedItem: -1,  })
-    }
+    
 
     onKeyDown = e=>{
         console.log(e.keyCode)
@@ -64,29 +62,39 @@ class DropdownSearch extends React.Component {
             const showNode = this.props.data[this.state.selectedItem] ? this.props.data[this.state.selectedItem].node : this.state.searchText
             return <div className="head-text" onClick={this.onClickSearch}>{showNode}</div>
         } else {
+            //add click out side function
             const getWrapperClass = ()=>this.props.data.length>0?'list':''
-            return <div>
-                <input ref={child => { 
-                        if(child){
-                            console.log(child.value)
-                            child.selectionStart = child.selectionEnd = child.value.length
-                        }
-                    }}
-                    onChange={this.onChangeText}
-                    value={this.state.searchText}
-                    autoFocus />
-                <ul className={`items-wrapper ${getWrapperClass()}`}>
-                    {this.props.data.map((item, i) => {
-                        return <Item key={i}
-                            selected={i === this.state.selectedItem}
-                            onClick={this.onItemClick.bind(this, i, item)}>{item.node}</Item>
-                    })}
-                </ul>
-            </div>
+            const _this = this
+            class searchDiv extends React.Component{
+                handleClickOutside = e => {
+                    _this.setState({ ..._this.state, isSearching: false, selectedItem: -1,  })
+                }
+                render(){
+                    return <div>
+                                <input ref={child => { 
+                                        if(child){
+                                            console.log(child.value)
+                                            child.selectionStart = child.selectionEnd = child.value.length
+                                        }
+                                    }}
+                                    onChange={_this.onChangeText}
+                                    value={_this.state.searchText}
+                                    autoFocus />
+                                <ul className={`items-wrapper ${getWrapperClass()}`}>
+                                    {_this.props.data.map((item, i) => {
+                                        return <Item key={i}
+                                            selected={i === _this.state.selectedItem}
+                                            onClick={_this.onItemClick.bind(_this, i, item)}>{item.node}</Item>
+                                    })}
+                                </ul>
+                            </div>
+                }
+            }
+            const ClickOutside = onClickOutside(searchDiv)
+            return <ClickOutside/>
         }
     }
     render() {
-        console.log('..render..', this.state)
         return <div className="dropdown-container" onKeyDown={this.onKeyDown}>
                     <div className="dropdown-search">
                         {this.getSearchState()}
@@ -134,7 +142,7 @@ class DropdownSearch extends React.Component {
                 </div>
     }
 }
-export default onClickOutside(DropdownSearch)
+export default DropdownSearch
 
 
 DropdownSearch.propTypes = {
