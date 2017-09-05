@@ -8,17 +8,20 @@ export default class FBLogin {
     static CONNECTED = 'connected'
     static NOT_AUTHORIZED = 'not_authorized'
 
-    constructor(appId, onFBStatusChanged ) {
-        this.status = FBLogin.CHECKING
+    constructor(appId ) {
         this.appId = appId
         this.authResponse = null
+    }
+
+    init(onFBStatusChanged){
         this.onFBStatusChanged = onFBStatusChanged
+        this._changeStatus(FBLogin.CHECKING)
 
         //callback when facekbook sdk loaded
         window.fbAsyncInit = () => {
             this.FB = window['FB']
             this.FB.init({
-                appId: appId,
+                appId: this.appId,
                 autoLogAppEvents: true,
                 xfbml: true,
                 version: 'v2.10'
@@ -46,8 +49,6 @@ export default class FBLogin {
     }
 
     _updateStatus = response => {
-        console.log('updateStatus', response)
-        
         this.authResponse = response.authResponse
         if (response && response.authResponse && response.status === 'connected') {
             this._changeStatus(FBLogin.CONNECTED)
@@ -62,6 +63,14 @@ export default class FBLogin {
     }
     logout = () => {
         this.FB.logout( this._updateStatus)
+    }
+
+    getMyInfo = (callback)=>{
+        this.FB.api('/me', callback)
+        /* response=>{
+            if(!response.error){}
+            console.log(' my info : ',response)
+        } */
     }
 
     getStatus = () =>{

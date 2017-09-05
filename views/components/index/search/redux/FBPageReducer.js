@@ -1,4 +1,4 @@
-import * as FBPageAction from './FBPageAction'
+import * as FBPageAction from './fbPageAction'
 export const NO_LOAD_STAUTS = 'no_load'
 export const LOADING_STATUS = 'loading'
 export const LOAD_FAIL_STATUS = 'loading'
@@ -34,7 +34,7 @@ const FBPageReducer = (state=defaultState, action)=>{
             return {
                 ...state,
                 loadStatus: NO_LOAD_STAUTS,
-                pages: [],
+                pages: action.payload,
             }
         }
         default:{

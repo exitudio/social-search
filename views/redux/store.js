@@ -4,8 +4,9 @@ import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import withRedux from 'next-redux-wrapper'
 
-import reducer from './reducer'
-import FBPageReducer from '../components/index/search/redux/FBPageReducer'
+import loginReducer from '../components/index/redux/loginReducer'
+import fbPageReducer from '../components/index/search/redux/fbPageReducer'
+import fbPostReducer from '../components/index/search/redux/fbPostReducer'
 
 
 const logger = createLogger({
@@ -13,7 +14,11 @@ const logger = createLogger({
     duration:true
 })
 
-const allReducers = combineReducers({reducer, FBPageReducer})
+const allReducers = combineReducers({
+    fbPageReducer,
+    loginReducer,
+    fbPostReducer,
+})
 
 export const initStore = (initialState = {}) => {
     return createStore(allReducers, initialState, composeWithDevTools(applyMiddleware(thunkMiddleware, logger)))

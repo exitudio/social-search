@@ -9,9 +9,9 @@ var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _FBPageAction = require('./FBPageAction');
+var _fbPageAction = require('./fbPageAction');
 
-var FBPageAction = _interopRequireWildcard(_FBPageAction);
+var FBPageAction = _interopRequireWildcard(_fbPageAction);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -55,7 +55,7 @@ var FBPageReducer = function FBPageReducer() {
             {
                 return (0, _extends3.default)({}, state, {
                     loadStatus: NO_LOAD_STAUTS,
-                    pages: []
+                    pages: action.payload
                 });
             }
         default:

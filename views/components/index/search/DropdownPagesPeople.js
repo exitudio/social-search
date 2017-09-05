@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import * as FBPageAction from './redux/FBPageAction'
+import * as FBPageAction from './redux/fbPageAction'
+import * as FBPostAction from './redux/fbPostAction'
 import DropdownSearch from '~/views/components/shareComponent/dropdown/dropdownSearch/DropdownSearch'
 class DropdownPagesPeople extends React.Component{
     onSearchChange = (text, immediately)=>{
@@ -14,23 +15,23 @@ class DropdownPagesPeople extends React.Component{
             )
         }
     }
+    onSelect = i=>{
+        this.props.dispatch(FBPostAction.loadPostAction(this.props.pages[i].id))
+    }
+
     getData = ()=>{
-        if(this.props.pages){
-            return this.props.pages.map( (item, i)=>({
-                name: item.name,
-                node: <div className="child-item" key={i}>
-                            <img className="image" src={item.picture.data.url} alt=""/>
-                            <div className="item-name">{item.name}</div>
-                        </div>
-            }))
-        }else{
-            return []
-        }
+        return this.props.pages.map( (item, i)=>({
+            name: item.name,
+            node: <div className="child-item" key={i}>
+                        <img className="image" src={item.picture.data.url} alt=""/>
+                        <div className="item-name">{item.name}</div>
+                    </div>
+        }))
     }
 
     render(){
         return <div className="dropdown-page">
-                    <DropdownSearch data={this.getData()} onSearchChange={this.onSearchChange}/>
+                    <DropdownSearch data={this.getData()} onSearchChange={this.onSearchChange} onSelect={this.onSelect}/>
                     <style jsx>{`
                         .dropdown-page :global(.child-item){
                             display: flex;
@@ -48,6 +49,8 @@ class DropdownPagesPeople extends React.Component{
     }
 }
 const mapStateToProps = state=>({
-    pages: state.FBPageReducer.pages,
+    pages: state.fbPageReducer.pages,
+    myName: state.loginReducer.name,
+    myUserID: state.loginReducer.userID,
 })
 export default connect(mapStateToProps)(DropdownPagesPeople)

@@ -33,7 +33,7 @@ export default class LoadOnce{
 let lastLoad
 
 export const LoadFBPageAction = (searchWords) => {
-    return dispatch => {
+    return (dispatch, getState) => {
         console.log('searchWords', searchWords)
         if (searchWords !== '') {
             dispatch({ type: LOADING_FB_PAGES, payload: searchWords })
@@ -48,9 +48,15 @@ export const LoadFBPageAction = (searchWords) => {
                     dispatch({ type: LOAD_FAIL_FB_PAGES, })
                 })
         } else {
+            console.log('_____ clear _____')
             if(lastLoad) lastLoad.active = false
-            dispatch({ type: CLEAR_SEARCH, })
-
+            const loginState = getState().loginReducer
+            dispatch({ type: CLEAR_SEARCH, 
+                payload: [{
+                 id:loginState.userID,
+                 name: loginState.name,
+                 picture:{ data:{url:`http://graph.facebook.com/${loginState.userID}/picture?type=square`}}
+                }] })
         }
     }
 }

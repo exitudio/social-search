@@ -13,11 +13,13 @@ class DropdownSearch extends React.Component {
             searchText: '',
         }
     }
+
     onClickSearch = () => {
         this.props.onSearchChange( this.state.searchText, true )
         this.setState({ ...this.state, isSearching: true, selectedItem: -1, })
     }
     onItemClick = (i, item, e) => {
+        this.props.onSelect(i)
         this.setState({
             ...this.state,
             isSearching: false,
@@ -30,7 +32,7 @@ class DropdownSearch extends React.Component {
         this.setState({ ...this.state, searchText: e.target.value, selectedItem: -1, })
     }
 
-    quite = ()=>{
+    quit = ()=>{
         this.setState({ ...this.state, isSearching: false, selectedItem: -1,  })
     }
 
@@ -52,10 +54,13 @@ class DropdownSearch extends React.Component {
             this.setState({ ...this.state, searchText: this.props.data[nextSelectIndex].name, selectedItem:nextSelectIndex })
         }else if(e.keyCode===13){
             // enter
-            this.setState({ ...this.state, searchText: this.props.data[this.state.selectedItem].name, isSearching: false })
+            if( this.state.selectedItem > -1 ){
+                this.props.onSelect(this.state.selectedItem)
+                this.setState({ ...this.state, searchText: this.props.data[this.state.selectedItem].name, isSearching: false })
+            }
         }else if(e.keyCode===27){
             // escape
-            this.quite()
+            this.quit()
         }
     }
 
@@ -69,7 +74,7 @@ class DropdownSearch extends React.Component {
             const _this = this
             class searchDiv extends React.Component{
                 handleClickOutside = e => {
-                    _this.quite()
+                    _this.quit()
                 }
                 render(){
                     return <div>

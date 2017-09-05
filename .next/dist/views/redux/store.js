@@ -19,13 +19,17 @@ var _nextReduxWrapper = require('next-redux-wrapper');
 
 var _nextReduxWrapper2 = _interopRequireDefault(_nextReduxWrapper);
 
-var _reducer = require('./reducer');
+var _loginReducer = require('../components/index/redux/loginReducer');
 
-var _reducer2 = _interopRequireDefault(_reducer);
+var _loginReducer2 = _interopRequireDefault(_loginReducer);
 
-var _FBPageReducer = require('../components/index/search/redux/FBPageReducer');
+var _fbPageReducer = require('../components/index/search/redux/fbPageReducer');
 
-var _FBPageReducer2 = _interopRequireDefault(_FBPageReducer);
+var _fbPageReducer2 = _interopRequireDefault(_fbPageReducer);
+
+var _fbPostReducer = require('../components/index/search/redux/fbPostReducer');
+
+var _fbPostReducer2 = _interopRequireDefault(_fbPostReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34,7 +38,11 @@ var logger = (0, _reduxLogger.createLogger)({
     duration: true
 });
 
-var allReducers = (0, _redux.combineReducers)({ reducer: _reducer2.default, FBPageReducer: _FBPageReducer2.default });
+var allReducers = (0, _redux.combineReducers)({
+    fbPageReducer: _fbPageReducer2.default,
+    loginReducer: _loginReducer2.default,
+    fbPostReducer: _fbPostReducer2.default
+});
 
 var initStore = exports.initStore = function initStore() {
     var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
