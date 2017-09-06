@@ -17,7 +17,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initialState = {
-    posts: []
+    posts: [],
+    sharedPosts: []
 };
 
 var fbPostReducer = function fbPostReducer() {
@@ -27,11 +28,14 @@ var fbPostReducer = function fbPostReducer() {
     switch (action.type) {
         case FBPostAction.LOADING_POSTS:
             {
-                return (0, _extends3.default)({}, state, { posts: [] });
+                return (0, _extends3.default)({}, state, { posts: [], sharedPosts: {} });
             }
         case FBPostAction.ADD_POSTS:
             {
-                return (0, _extends3.default)({}, state, { posts: state.posts.concat(action.payload) });
+                return (0, _extends3.default)({}, state, {
+                    posts: state.posts.concat(action.payload.posts),
+                    sharedPosts: (0, _extends3.default)({}, state.sharedPosts, action.payload.sharedPosts)
+                });
             }
         default:
             return (0, _extends3.default)({}, state);

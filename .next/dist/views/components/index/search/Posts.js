@@ -24,6 +24,10 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _style = require('styled-jsx/style.js');
+
+var _style2 = _interopRequireDefault(_style);
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -69,7 +73,7 @@ var Posts = function (_React$Component) {
     (0, _createClass3.default)(Posts, [{
         key: 'render',
         value: function render() {
-            return _react2.default.createElement('div', {
+            return _react2.default.createElement('div', { className: 'posts-container', 'data-jsx': 1756273878,
                 __source: {
                     fileName: _jsxFileName,
                     lineNumber: 22
@@ -82,6 +86,9 @@ var Posts = function (_React$Component) {
                         lineNumber: 26
                     }
                 });
+            }), _react2.default.createElement(_style2.default, {
+                styleId: 1756273878,
+                css: '.posts-container[data-jsx="1756273878"]{width:500px}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInZpZXdzL2NvbXBvbmVudHMvaW5kZXgvc2VhcmNoL1Bvc3RzLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQTJCd0IsQUFHZ0MsWUFDZiIsImZpbGUiOiJ2aWV3cy9jb21wb25lbnRzL2luZGV4L3NlYXJjaC9Qb3N0cy5qcyIsInNvdXJjZVJvb3QiOiIvVXNlcnMvZXhpdC9FWElURm9sZGVyL3dvcmsvZ2l0aHViL3NvY2lhbC1zZWFyY2giLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QgZnJvbSAncmVhY3QnXG5pbXBvcnQge2Nvbm5lY3R9IGZyb20gJ3JlYWN0LXJlZHV4J1xuaW1wb3J0IFBvc3QgZnJvbSAnLi9Qb3N0J1xuY2xhc3MgUG9zdHMgZXh0ZW5kcyBSZWFjdC5Db21wb25lbnR7XG4gICAgZm9ybWF0RGF0ZSA9IGRhdGU9PntcbiAgICAgICAgdmFyIG1vbnRoTmFtZXMgPSBbXG4gICAgICAgICAgXCJKYW51YXJ5XCIsIFwiRmVicnVhcnlcIiwgXCJNYXJjaFwiLFxuICAgICAgICAgIFwiQXByaWxcIiwgXCJNYXlcIiwgXCJKdW5lXCIsIFwiSnVseVwiLFxuICAgICAgICAgIFwiQXVndXN0XCIsIFwiU2VwdGVtYmVyXCIsIFwiT2N0b2JlclwiLFxuICAgICAgICAgIFwiTm92ZW1iZXJcIiwgXCJEZWNlbWJlclwiXG4gICAgICAgIF1cbiAgICAgIFxuICAgICAgICB2YXIgZGF5ID0gZGF0ZS5nZXREYXRlKClcbiAgICAgICAgdmFyIG1vbnRoSW5kZXggPSBkYXRlLmdldE1vbnRoKClcbiAgICAgICAgdmFyIHllYXIgPSBkYXRlLmdldEZ1bGxZZWFyKClcbiAgICAgICAgdmFyIGhvdXJzID0gZGF0ZS5nZXRIb3VycygpXG4gICAgICAgIHZhciBtaW51dGVzID0gZGF0ZS5nZXRNaW51dGVzKClcbiAgICAgIFxuICAgICAgICByZXR1cm4gZGF5ICsgJyAnICsgbW9udGhOYW1lc1ttb250aEluZGV4XSArICcgJyArIHllYXIgKyAnIGF0ICcgKyAoXCIwXCIraG91cnMpLnNsaWNlKC0yKSArIFwiOlwiICsgKFwiMFwiK21pbnV0ZXMpLnNsaWNlKC0yKVxuICAgICAgfVxuICAgIHJlbmRlcigpe1xuICAgICAgICByZXR1cm4gPGRpdiBjbGFzc05hbWU9XCJwb3N0cy1jb250YWluZXJcIj5cbiAgICAgICAgICAgIHt0aGlzLnByb3BzLnBvc3RzLmZpbHRlcigoaXRlbSxpKT0+e1xuICAgICAgICAgICAgICAgIHJldHVybiBpPDUwXG4gICAgICAgICAgICB9KS5tYXAoIChwb3N0LGkpPT57XG4gICAgICAgICAgICAgICAgcmV0dXJuIDxQb3N0IGtleT17aX0gcG9zdD17cG9zdH0gaWQ9e2l9Lz5cbiAgICAgICAgICAgIH0pfVxuICAgICAgICAgICAgPHN0eWxlIGpzeD57YFxuICAgICAgICAgICAgICAgIC5wb3N0cy1jb250YWluZXJ7XG4gICAgICAgICAgICAgICAgICAgIHdpZHRoOjUwMHB4O1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICBgfTwvc3R5bGU+XG4gICAgICAgIDwvZGl2PlxuICAgIH1cbn1cblxuY29uc3QgbWFwU3RhdGVUb1Byb3BzID0gc3RhdGU9PntcbiAgICByZXR1cm4ge1xuICAgICAgICBwb3N0czogc3RhdGUuZmJQb3N0UmVkdWNlci5wb3N0c1xuICAgIH1cbn1cbmV4cG9ydCBkZWZhdWx0IGNvbm5lY3QobWFwU3RhdGVUb1Byb3BzKShQb3N0cykiXX0= */\n/*@ sourceURL=views/components/index/search/Posts.js */'
             }));
         }
     }]);

@@ -19,12 +19,17 @@ class Posts extends React.Component{
         return day + ' ' + monthNames[monthIndex] + ' ' + year + ' at ' + ("0"+hours).slice(-2) + ":" + ("0"+minutes).slice(-2)
       }
     render(){
-        return <div>
+        return <div className="posts-container">
             {this.props.posts.filter((item,i)=>{
                 return i<50
             }).map( (post,i)=>{
                 return <Post key={i} post={post} id={i}/>
             })}
+            <style jsx>{`
+                .posts-container{
+                    width:500px;
+                }
+                `}</style>
         </div>
     }
 }

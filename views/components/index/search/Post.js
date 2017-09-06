@@ -1,5 +1,7 @@
 import React from 'react'
-export default class Post extends React.Component{
+import Description from './Description'
+import {connect} from 'react-redux'
+class Post extends React.Component{
     formatDate = date=>{
         var monthNames = [
           "January", "February", "March",
@@ -19,8 +21,9 @@ export default class Post extends React.Component{
 
     getContent = ()=>{
         if(this.props.post.parent_id){
-        }else if(this.props.post.type === 'link'){
-            return <div className="share-link">
+            return <Post post={ this.props.sharedPosts[ this.props.post.parent_id ] }/>
+        }else if(this.props.post.type === 'link' || this.props.post.type === 'video'){
+            return <a href={this.props.post.link} target="_blank" className="share-link">
                 <div className="image-container">
                     <img className="image" src={this.props.post.full_picture} alt=""/>
                 </div>
@@ -28,9 +31,11 @@ export default class Post extends React.Component{
                     <div className="link-head">{this.props.post.name}</div>
                     <div className="link-description">{this.props.post.description}</div>
                 </div>
-            </div>
-        }else{
+            </a>
+        }else if(this.props.post.full_picture){
             return <img className="scaledImageFitWidth" src={this.props.post.full_picture} alt=""/>
+        }else{
+            return ''
         }
     }
     
@@ -41,26 +46,25 @@ export default class Post extends React.Component{
                     <img src={`http://graph.facebook.com/${this.props.post.from.id}/picture?type=square`} alt=""/>
                 </a>
                 <div className="right-info">
-                    <div className="user-name">{this.props.post.from.name} {this.props.id}</div>
+                    <div className="user-name">{this.props.post.from.name} <a href={this.props.post.permalink_url} target="_blank">{this.props.id} ></a></div>
                     <span className="timestampContent">{this.formatDate(new Date(this.props.post.created_time) )}</span>
                 </div>
             </div>
             <div className="content">
-                <div className="description">{this.props.post.message}</div>
+                <Description message={this.props.post.message}/>
                 {this.getContent()}
                 
             </div>
         
             <style jsx>{`
                 .post{
-                    width:500px;
                     padding:12px;
                     background-color: white;
 
                     border: 1px solid;
                     border-color: #e5e6e9 #dfe0e4 #d0d1d5;
                     border-radius: 3px;
-                    margin-bottom: 10px;
+                    margin-top: 10px;
                     color: #1d2129;
                 }
                 .head{
@@ -101,13 +105,17 @@ export default class Post extends React.Component{
                     min-height: initial;
                     width: 100%;
                     margin-top:20px;
+                    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+                    border: 1px solid rgba(0, 0, 0, .1);
                 }
 
 
                 /****** LINK ******/
                 .post :global(.share-link){
                     margin-top: 10px;
-
+                    display: block;
+                    text-decoration: none;
+                    color: #1d2129;
                     border: 1px solid;
                     border-color: #e9ebee #e9ebee #d1d1d1;
                     box-shadow: 0 0 0 1px rgba(0, 0, 0, .15) inset, 0 1px 4px rgba(0, 0, 0, .1);
@@ -129,7 +137,7 @@ export default class Post extends React.Component{
                 .post :global(.text){
                     height: auto;
                     margin: 10px 12px;
-                    max-height: 100px;
+                    {/* max-height: 100px; */}
                 }
                 .post :global(.link-head){
                     font-family: Georgia, serif;
@@ -147,9 +155,14 @@ export default class Post extends React.Component{
                     max-height: 80px;
                     overflow: hidden;
                     font-size: 12px;
+                    word-wrap: break-word;
                 }
-                
                 `}</style>
             </div>
     }
 }
+
+const mapStateToProps = state=>{
+    return { sharedPosts: state.fbPostReducer.sharedPosts}
+}
+export default connect(mapStateToProps)(Post)
