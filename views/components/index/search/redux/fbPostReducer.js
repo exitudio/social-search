@@ -2,7 +2,8 @@ import * as FBPostAction from './fbPostAction'
 
 const initialState = {
     posts: [],
-    sharedPosts: [],
+    sharedPosts: {}, //hashMap for nested (shared) post
+    foundPosts: [],
 }
 
 const fbPostReducer = (state=initialState, action)=>{
@@ -15,6 +16,12 @@ const fbPostReducer = (state=initialState, action)=>{
                 ...state, 
                 posts: state.posts.concat(action.payload.posts),
                 sharedPosts: {...state.sharedPosts, ...action.payload.sharedPosts},
+            }
+        }
+        case FBPostAction.SEARCH_POST:{
+            return {
+                ...state,
+                foundPosts: action.payload,
             }
         }
         default:

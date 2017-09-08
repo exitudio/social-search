@@ -20,7 +20,9 @@ class Post extends React.Component{
       }
 
     getContent = ()=>{
-        if(this.props.post.parent_id){
+        if(this.props.post.parent_id && this.props.sharedPosts){
+            //check "this.props.sharedPosts" for making sure that the child <Post/> will not render it parent_id again.
+            //the <Post/> will have only one child, even though the child has more nested child.
             return <Post post={ this.props.sharedPosts[ this.props.post.parent_id ] }/>
         }else if(this.props.post.type === 'link' || this.props.post.type === 'video'){
             return <a href={this.props.post.link} target="_blank" className="share-link">
@@ -46,7 +48,7 @@ class Post extends React.Component{
                     <img src={`http://graph.facebook.com/${this.props.post.from.id}/picture?type=square`} alt=""/>
                 </a>
                 <div className="right-info">
-                    <div className="user-name">{this.props.post.from.name} <a href={this.props.post.permalink_url} target="_blank">{this.props.id} ></a></div>
+                    <div className="user-name">{this.props.post.from.name} <a href={this.props.post.permalink_url||this.props.post.link} target="_blank">{this.props.id} ></a></div>
                     <span className="timestampContent">{this.formatDate(new Date(this.props.post.created_time) )}</span>
                 </div>
             </div>

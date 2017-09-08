@@ -29,10 +29,16 @@ export default class InputText extends React.Component {
             this.props.onBlur()
         }
     }
+    onKeyDown = e =>{
+        if (this.props.onKeyDown) {
+            this.props.onKeyDown(e)
+        }
+    }
     render() {
         return <input className={`${this.props.className || ''} input-text`}
                             onChange={this.onChange}
                             onBlur={this.onBlur}
+                            onKeyDown={this.onKeyDown}
                             value={this.state.value || ''}
                             placeholder={this.props.placeholder} >
                 </input>
@@ -47,4 +53,5 @@ InputText.propTypes = {
     ]),
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
+    onKeyDown: PropTypes.func,
 }

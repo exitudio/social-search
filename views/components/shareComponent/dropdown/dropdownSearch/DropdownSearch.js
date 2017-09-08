@@ -136,7 +136,7 @@ class DropdownSearch extends React.Component {
                             border: none;
                             height: 52px;
                             width: 100%;
-                            font-family: Helvetica, Arial, sans-serif !important;
+                            {/* font-family: Helvetica, Arial, sans-serif !important; */}
                             font-size:20px;
                         }
                         .dropdown-search :global(.items-wrapper){

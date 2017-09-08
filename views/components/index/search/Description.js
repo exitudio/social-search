@@ -5,9 +5,9 @@ export default class Description extends React.Component {
     static clipMessageLength = 300
     constructor(props){
         super(props)
-        this.setMessageProps(this.props.message)
+        const isFullText = this.setMessageProps(this.props.message)
         this.state = {
-            isFullText: this.props.message ? this.props.message.length <= Description.clipMessageLength : true
+            isFullText: isFullText
         }
     }
     setMessageProps = message =>{
@@ -16,11 +16,12 @@ export default class Description extends React.Component {
         if(message){
             this.clipMessage = message ? message.substring(0, Description.clipMessageLength)+'...' : ''
         }
+        return message ? message.length <= Description.clipMessageLength : true
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.message !== this.props.message){
-            this.setMessageProps(this.nextProps.message)
-            this.setState({...this.state, isFullText: false})
+            const isFullText = this.setMessageProps(nextProps.message)
+            this.setState({...this.state, isFullText})
         }
     }
     onSeeMore = e=>{
