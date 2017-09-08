@@ -1,20 +1,35 @@
 import axios from 'axios'
-import * as FBPostAction from './fbPostAction'
+
 export default class LoadPostWithParentShare{
-    constructor(ownerID, accessToken, dispatch, getState){
-        this.active = true
+    static ADD_POSTS = 'add_posts'
+    static LOAD_POSTS_FAIL = 'load_posts_fail'
+    static LOAD_POSTS_DONE = 'load_posts_done'
+
+    constructor(ownerID, accessToken, callback){
         this.ownerID = ownerID
         this.accessToken = accessToken
-        this.dispatch = dispatch
-        this.getState = getState
-
+        this._callback = callback
+        
+        this.active = true
         this.fieldParam = 'fields=picture,name,caption,created_time,description,feed_targeting,from,icon,link,message,permalink_url,shares,source,status_type,story,type,with_tags,parent_id,full_picture'
         this.baseURL = `${this.ownerID}/posts`
+
+        this.allPosts = []
+        this.sharedPosts = {}
+    }
+    
+    load = ()=>{
+        this.allPosts = []
+        this.sharedPosts = {}
         const defaultURL = `${this.baseURL}?${this.fieldParam}&limit=50` //Batch limitation is 50
-        this.getLoad(defaultURL)
+        this._getLoad(defaultURL)
+    }
+    _addPostData = (posts, sharedPosts)=>{
+        this.allPosts = this.allPosts.concat(posts)
+        this.sharedPosts = {...this.sharedPosts, ...sharedPosts}
     }
 
-    getLoad = (url)=>{
+    _getLoad = (url)=>{
         const params = new URLSearchParams()
         params.append('access_token',this.accessToken)
         params.append('include_headers',false)
@@ -39,47 +54,44 @@ export default class LoadPostWithParentShare{
                         const result = JSON.parse(response.data[0].body)
                         const sharedResult = JSON.parse(response.data[1].body)
                         
-                        this.dispatch({
-                            type: FBPostAction.ADD_POSTS,
-                            payload:{
-                                posts: result.data,
-                                sharedPosts: sharedResult.error ? {} : sharedResult
-                            }
+                        this._addPostData(result.data, sharedResult.error ? {} : sharedResult)
+                        this._callback({
+                            type: LoadPostWithParentShare.ADD_POSTS,
+                            payload: result.data,
                         })
+
                         console.log('result:',result)
                         console.log('sharedResult:',sharedResult)
                         console.log('________________________________________')
 
                         //check length of posts array
-                        const isPostsLessThan4000 = this.getState().fbPostReducer.posts.length < 4000
+                        const isPostsLessThan4000 = this.allPosts.length < 4000
 
                         if( result.paging && result.paging.next && isPostsLessThan4000 ){
                             // console.log('next',result.paging.next)
     
-                            //delete unuse params (access_token)
                             let params = result.paging.next.split('?')[1]
+                            //delete unuse params (access_token)
                             // let paramsObj = JsLib.URLParamsToObject(params)
                             // delete paramsObj.access_token
                             // params = JsLib.ObjectToURLParams(paramsObj)
     
                             // console.log('params',params)
                             const url = `${this.baseURL}?${params}`
-                            this.getLoad(url)
+                            this._getLoad(url)
                         }else{
                             console.log('no next page or reach 4000 posts loaded')
+                            this._callback({type: LoadPostWithParentShare.LOAD_POSTS_DONE})
                         }
     
                     }else{
-                        this.dispatch({type: FBPostAction.LOAD_FAIL_POSTS})
+                        this._callback({type: LoadPostWithParentShare.LOAD_POSTS_FAIL})
                     }
                 }
             })
             .catch(response=>{
                 console.log(response)
-                this.dispatch({type: FBPostAction.LOAD_FAIL_POSTS})
+                this._callback({type: LoadPostWithParentShare.LOAD_POSTS_FAIL})
             })
-    }
-
-    getResponseAndLoadNextPage = response=>{
     }
 }

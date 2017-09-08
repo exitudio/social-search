@@ -4,16 +4,16 @@ import * as FBPageAction from './redux/fbPageAction'
 import * as FBPostAction from './redux/fbPostAction'
 import DropdownSearch from '~/views/components/shareComponent/dropdown/dropdownSearch/DropdownSearch'
 class DropdownPagesPeople extends React.Component{
-    onSearchChange = (text, immediately)=>{
-        if(immediately){
-            this.props.dispatch(FBPageAction.LoadFBPageAction(text) )
-        }else{
-            clearTimeout(this.timeout)
-            this.timeout = setTimeout(
-                ()=>this.props.dispatch(FBPageAction.LoadFBPageAction(text) ),
-                300
-            )
-        }
+    componentDidMount(){
+        //for adding my profile to empty search list
+        this.props.dispatch(FBPageAction.loadFBPageAction(''))
+    }
+    onSearchChange = text=>{
+        clearTimeout(this.timeout)
+        this.timeout = setTimeout(
+            ()=>this.props.dispatch(FBPageAction.loadFBPageAction(text) ),
+            300
+        )
     }
     onSelect = i=>{
         this.props.dispatch(FBPostAction.loadPostAction(this.props.pages[i].id))

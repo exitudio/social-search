@@ -1,7 +1,11 @@
 import React from 'react'
-import Description from './Description'
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import Description from './Description'
 class Post extends React.Component{
+    componentWillReceiveProps(nextProps){
+        console.log('post update...')
+    }
     formatDate = date=>{
         var monthNames = [
           "January", "February", "March",
@@ -20,10 +24,14 @@ class Post extends React.Component{
       }
 
     getContent = ()=>{
-        if(this.props.post.parent_id && this.props.sharedPosts){
+        if(this.props.post.parent_id && this.props.loadPosts && this.props.loadPosts.sharedPosts){
             //check "this.props.sharedPosts" for making sure that the child <Post/> will not render it parent_id again.
             //the <Post/> will have only one child, even though the child has more nested child.
-            return <Post post={ this.props.sharedPosts[ this.props.post.parent_id ] }/>
+            if(this.props.loadPosts.sharedPosts[ this.props.post.parent_id ]){
+                return <Post post={ this.props.loadPosts.sharedPosts[ this.props.post.parent_id ] }/>
+            }else{
+                return <div>Cannot find shared post!!!</div>
+            }
         }else if(this.props.post.type === 'link' || this.props.post.type === 'video'){
             return <a href={this.props.post.link} target="_blank" className="share-link">
                 <div className="image-container">
@@ -42,14 +50,17 @@ class Post extends React.Component{
     }
     
     render(){
-        return <div className="post">
+        return <div className={`post${this.props.isMain?' main-post':''}`}>
             <div className="head">
-                <a href={`https://facebook.com/${this.props.post.from.id}`} className="profile-image">
+                <a href={`https://facebook.com/${this.props.post.from.id}`} target="_blank" className="profile-image">
                     <img src={`http://graph.facebook.com/${this.props.post.from.id}/picture?type=square`} alt=""/>
                 </a>
                 <div className="right-info">
-                    <div className="user-name">{this.props.post.from.name} <a href={this.props.post.permalink_url||this.props.post.link} target="_blank">{this.props.id} ></a></div>
-                    <span className="timestampContent">{this.formatDate(new Date(this.props.post.created_time) )}</span>
+                    <a href={`https://facebook.com/${this.props.post.from.id}`} target="_blank" className="user-name">
+                        {this.props.post.from.name} 
+                    </a>
+                    <a href={this.props.post.permalink_url||this.props.post.link} target="_blank">{this.props.id} ></a>
+                    <div className="timestampContent">{this.formatDate(new Date(this.props.post.created_time) )}</div>
                 </div>
             </div>
             <div className="content">
@@ -68,6 +79,9 @@ class Post extends React.Component{
                     border-radius: 3px;
                     margin-top: 10px;
                     color: #1d2129;
+                }
+                .main-post{
+                    width:500px;
                 }
                 .head{
                     margin-bottom: 11px;
@@ -163,8 +177,12 @@ class Post extends React.Component{
             </div>
     }
 }
+Post.propTypes = {
+    post: PropTypes.object.isRequired,
+    isMain: PropTypes.bool,
+}
 
 const mapStateToProps = state=>{
-    return { sharedPosts: state.fbPostReducer.sharedPosts}
+    return { loadPosts: state.fbPostReducer.loadPosts}
 }
 export default connect(mapStateToProps)(Post)

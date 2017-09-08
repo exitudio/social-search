@@ -11,9 +11,16 @@ class Search extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            searchText: '',
+            searchText: this.props.search,
         }
     }
+    componentWillReceiveProps = nextProps=>{
+        this.setState({
+            ...this.state,
+            searchText: nextProps.search,
+        })
+    }
+
     onSearchChange = text=>{
         this.setState({
             ...this.state,
@@ -57,4 +64,9 @@ class Search extends React.Component{
 const mapDispatchToProps = dispatch=>{
     return bindActionCreators({searchPostAction}, dispatch)
 }
-export default connect(null,mapDispatchToProps)(Search)
+const mapStateToProps = state=>{
+    return {
+        search: state.fbPostReducer.search
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Search)

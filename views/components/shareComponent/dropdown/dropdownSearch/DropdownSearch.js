@@ -9,54 +9,56 @@ class DropdownSearch extends React.Component {
         super(props)
         this.state = {
             isSearching: false,
-            selectedItem: -1,
+            selectedItem: null,
+            cursorIndex: -1,
             searchText: '',
         }
     }
 
     onClickSearch = () => {
-        this.props.onSearchChange( this.state.searchText, true )
-        this.setState({ ...this.state, isSearching: true, selectedItem: -1, })
+        // this.props.onSearchChange( this.state.searchText, true )
+        this.setState({ ...this.state, isSearching: true, })
     }
     onItemClick = (i, item, e) => {
         this.props.onSelect(i)
         this.setState({
             ...this.state,
             isSearching: false,
-            selectedItem: i,
+            selectedItem: this.props.data[i],
+            cursorItem: i,
             searchText: item.name,
         })
     }
     onChangeText = e => {
         this.props.onSearchChange(e.target.value)
-        this.setState({ ...this.state, searchText: e.target.value, selectedItem: -1, })
+        this.setState({ ...this.state, searchText: e.target.value, cursorIndex: -1, })
     }
 
     quit = ()=>{
-        this.setState({ ...this.state, isSearching: false, selectedItem: -1,  })
+        this.setState({ ...this.state, isSearching: false,})
     }
 
     onKeyDown = e=>{
         console.log(e.keyCode)
         if(e.keyCode===38){
             // arrow up
-            let nextSelectIndex = this.state.selectedItem - 1
-            if(nextSelectIndex<0){
-                nextSelectIndex = this.props.data.length-1
+            let nextCursorIndex = this.state.cursorIndex - 1
+            if(nextCursorIndex<0){
+                nextCursorIndex = this.props.data.length-1
             }
-            this.setState({ ...this.state, searchText: this.props.data[nextSelectIndex].name, selectedItem:nextSelectIndex })
+            this.setState({ ...this.state, searchText: this.props.data[nextCursorIndex].name, cursorItem:nextCursorIndex })
         }else if(e.keyCode===40){
             // arrow down
-            let nextSelectIndex = this.state.selectedItem + 1
-            if(nextSelectIndex > this.props.data.length -1 ){
-                nextSelectIndex = 0
+            let nextCursorIndex = this.state.cursorIndex + 1
+            if(nextCursorIndex > this.props.data.length -1 ){
+                nextCursorIndex = 0
             }
-            this.setState({ ...this.state, searchText: this.props.data[nextSelectIndex].name, selectedItem:nextSelectIndex })
+            this.setState({ ...this.state, searchText: this.props.data[nextCursorIndex].name, cursorItem:nextCursorIndex })
         }else if(e.keyCode===13){
             // enter
-            if( this.state.selectedItem > -1 ){
-                this.props.onSelect(this.state.selectedItem)
-                this.setState({ ...this.state, searchText: this.props.data[this.state.selectedItem].name, isSearching: false })
+            if( this.state.cursorIndex > -1 ){
+                this.props.onSelect(this.state.cursorIndex)
+                this.setState({ ...this.state, searchText: this.props.data[this.state.cursorIndex].name, isSearching: false })
             }
         }else if(e.keyCode===27){
             // escape
@@ -66,7 +68,7 @@ class DropdownSearch extends React.Component {
 
     getSearchState = () => {
         if (!this.state.isSearching) {
-            const showNode = this.props.data[this.state.selectedItem] ? this.props.data[this.state.selectedItem].node : this.state.searchText
+            const showNode = this.state.selectedItem ? this.state.selectedItem.node : this.state.searchText
             return <div className="head-text" onClick={this.onClickSearch}>{showNode}</div>
         } else {
             //add click out side function
@@ -90,7 +92,7 @@ class DropdownSearch extends React.Component {
                                 <ul className={`items-wrapper ${getWrapperClass()}`}>
                                     {_this.props.data.map((item, i) => {
                                         return <Item key={i}
-                                            selected={i === _this.state.selectedItem}
+                                            selected={i === _this.state.cursorIndex}
                                             onClick={_this.onItemClick.bind(_this, i, item)}>{item.node}</Item>
                                     })}
                                 </ul>

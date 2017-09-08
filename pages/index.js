@@ -34,9 +34,9 @@ class Index extends React.Component {
             <div className="container">
                 <div className="landing">
                     <img src="/static/images/googlelogo_color_272x92dp.png" alt="" className="flex-child logo-icon"/>
-                    {this.loginOrSearch()}
                 </div>
             </div>
+                {this.loginOrSearch()}
                     <style jsx>{`
                                 .landing{
                                     display: flex;

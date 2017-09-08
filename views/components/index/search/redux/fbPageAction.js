@@ -32,7 +32,7 @@ export default class LoadOnce{
 
 let lastLoad
 
-export const LoadFBPageAction = (searchWords) => {
+export const loadFBPageAction = (searchWords) => {
     return (dispatch, getState) => {
         console.log('searchWords', searchWords)
         if (searchWords !== '') {
