@@ -9,10 +9,11 @@ class Navigator extends React.Component{
         super(props)
         this.isCurrentPageChange = true
         this.state = {
-            pageValue: this.props.currentPage
+            pageValue: this.props.currentPage + 1
         }
     }
     componentWillReceiveProps = nextProps=>{
+        console.log('this.props.currentPage !== nextProps.currentPage:',this.props.currentPage , nextProps.currentPage)
         if(this.props.currentPage !== nextProps.currentPage ){
             this.setState({
                 ...this.state,
@@ -21,10 +22,10 @@ class Navigator extends React.Component{
         }
     }
 
-    inputPageChange = e=>{
+    inputPageChange = value=>{
         this.setState({
             ...this.state,
-            pageValue: e.target.value,
+            pageValue: value,
         })
     }
 
@@ -38,8 +39,8 @@ class Navigator extends React.Component{
         this.props.prevPage()
     }
     getPageButtons = ()=>{
-        let startIndex = this.props.currentPage - 3 < 0 ? this.props.currentPage : this.props.currentPage - 3
-        let endIndex =  startIndex + 6 > this.props.totalPage ? this.props.totalPage : startIndex + 6
+        let startIndex = this.props.currentPage > 3 ? this.props.currentPage-3 : 0
+        let endIndex =  startIndex + 6 < this.props.totalPage-1 ? startIndex + 6 : this.props.totalPage-1
         let buttons = []
 
         for(let i=startIndex; i<=endIndex; i++){
@@ -52,8 +53,21 @@ class Navigator extends React.Component{
     }
     onSubmit = e=>{
         e.preventDefault()
-        console.log( this.textInput.getValue() )
-        this.props.gotoPage( this.textInput.getValue() - 1 )
+        let page = this.textInput.getValue()-1
+        this.props.gotoPage( page )
+
+        //update text input in case that page is less than 0 or more than totalpage
+        const totalPage = this.props.totalPage
+        if(page>totalPage-1){
+            page = totalPage-1
+        }else if(page<0){
+            page = 0
+        }
+
+        this.setState({
+            ...this.state,
+            pageValue: page+1,
+        })
     }
     render(){
         return <div>

@@ -20,6 +20,7 @@ const fbPostReducer = (state=initialState, action)=>{
                 ...state, 
                 loadPosts: action.payload,
                 foundPosts:[],
+                currentPage:0,
             }
         }
         case FBPostAction.SEARCH_POST:{

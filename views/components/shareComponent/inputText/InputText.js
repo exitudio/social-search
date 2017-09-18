@@ -42,7 +42,7 @@ export default class InputText extends React.Component {
                             onChange={this.onChange}
                             onBlur={this.onBlur}
                             onKeyDown={this.onKeyDown}
-                            value={this.state.value || ''}
+                            value={this.state.value === undefined ? '':this.state.value}
                             placeholder={this.props.placeholder} >
                 </input>
     }

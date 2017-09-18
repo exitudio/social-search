@@ -94,20 +94,30 @@ export const gotoPage = page=>{
         const totalPage = getState().fbPostReducer.totalPage
         let nextCurrentPage = page
         if(page>totalPage-1){
-            nextCurrentPage = 0
-        }else if(page<0){
             nextCurrentPage = totalPage-1
+        }else if(page<0){
+            nextCurrentPage = 0
         }
         dispatch( {type:GOTO_PAGE, payload: nextCurrentPage} )
     }
 }
 export const nextPage = ()=>{
     return (dispatch, getState)=>{
-        dispatch( gotoPage( getState().fbPostReducer.currentPage+1 ) )
+        const totalPage = getState().fbPostReducer.totalPage
+        let nextPage = getState().fbPostReducer.currentPage+1
+        if(nextPage>totalPage-1){
+            nextPage = 0
+        }
+        dispatch( gotoPage( nextPage ) )
     }
 }
 export const prevPage = ()=>{
     return (dispatch, getState)=>{
-        dispatch( gotoPage( getState().fbPostReducer.currentPage-1 ) )
+        const totalPage = getState().fbPostReducer.totalPage
+        let prevPage = getState().fbPostReducer.currentPage-1
+        if(prevPage<0){
+            prevPage = totalPage-1
+        }
+        dispatch( gotoPage( prevPage ) )
     }
 }
