@@ -12,7 +12,7 @@ export default class LoadPostWithParentShare{
         
         this.active = true
         this.fieldParam = 'fields=picture,name,caption,created_time,description,feed_targeting,from,icon,link,message,permalink_url,shares,source,status_type,story,type,with_tags,parent_id,full_picture'
-        this.baseURL = `${this.ownerID}/posts`
+        this.baseURL = `${this.ownerID}/feed`
 
         this.allPosts = []
         this.sharedPosts = {}

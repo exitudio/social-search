@@ -25,7 +25,7 @@ class DropdownSearch extends React.Component {
             ...this.state,
             isSearching: false,
             selectedItem: this.props.data[i],
-            cursorItem: i,
+            cursorIndex: i,
             searchText: item.name,
         })
     }
@@ -42,23 +42,30 @@ class DropdownSearch extends React.Component {
         console.log(e.keyCode)
         if(e.keyCode===38){
             // arrow up
+            e.preventDefault()
             let nextCursorIndex = this.state.cursorIndex - 1
             if(nextCursorIndex<0){
                 nextCursorIndex = this.props.data.length-1
             }
-            this.setState({ ...this.state, searchText: this.props.data[nextCursorIndex].name, cursorItem:nextCursorIndex })
+            this.setState({ ...this.state, searchText: this.props.data[nextCursorIndex].name, cursorIndex:nextCursorIndex })
         }else if(e.keyCode===40){
             // arrow down
+            e.preventDefault()
             let nextCursorIndex = this.state.cursorIndex + 1
             if(nextCursorIndex > this.props.data.length -1 ){
                 nextCursorIndex = 0
             }
-            this.setState({ ...this.state, searchText: this.props.data[nextCursorIndex].name, cursorItem:nextCursorIndex })
+            this.setState({ ...this.state, searchText: this.props.data[nextCursorIndex].name, cursorIndex:nextCursorIndex })
         }else if(e.keyCode===13){
             // enter
             if( this.state.cursorIndex > -1 ){
                 this.props.onSelect(this.state.cursorIndex)
-                this.setState({ ...this.state, searchText: this.props.data[this.state.cursorIndex].name, isSearching: false })
+                this.setState({ 
+                    ...this.state, 
+                    selectedItem: this.props.data[this.state.cursorIndex],
+                    searchText: this.props.data[this.state.cursorIndex].name, 
+                    isSearching: false 
+                })
             }
         }else if(e.keyCode===27){
             // escape

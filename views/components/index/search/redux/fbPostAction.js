@@ -5,6 +5,8 @@ export const LOAD_POSTS_DONE = 'load_posts_done'
 export const SEARCH_POST = 'search_post'
 export const FOUND_NEW_SEARCH_POST = 'found_new_search_post'
 
+export const GOTO_PAGE = 'goto_page'
+
 
 export const loadPostAction = ownerID=>{
     return (dispatch, getState)=>{
@@ -83,5 +85,29 @@ export const searchPostAction = search=>{
             type: SEARCH_POST,
             payload: {foundPosts, search}
         })
+    }
+}
+
+
+export const gotoPage = page=>{
+    return (dispatch, getState)=>{
+        const totalPage = getState().fbPostReducer.totalPage
+        let nextCurrentPage = page
+        if(page>totalPage-1){
+            nextCurrentPage = 0
+        }else if(page<0){
+            nextCurrentPage = totalPage-1
+        }
+        dispatch( {type:GOTO_PAGE, payload: nextCurrentPage} )
+    }
+}
+export const nextPage = ()=>{
+    return (dispatch, getState)=>{
+        dispatch( gotoPage( getState().fbPostReducer.currentPage+1 ) )
+    }
+}
+export const prevPage = ()=>{
+    return (dispatch, getState)=>{
+        dispatch( gotoPage( getState().fbPostReducer.currentPage-1 ) )
     }
 }

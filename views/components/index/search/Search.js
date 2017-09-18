@@ -5,7 +5,6 @@ import {searchPostAction} from './redux/fbPostAction'
 import InputText from '~/views/components/shareComponent/inputText/InputText'
 import Button from '~/views/components/shareComponent/button/Button'
 import DropdownPagesPeople from './DropdownPagesPeople'
-import Posts from './Posts'
 
 class Search extends React.Component{
     constructor(props){
@@ -37,14 +36,13 @@ class Search extends React.Component{
     }
     render(){
         return <div className="index-page">
-                    <div style={{height:'100px'}}/>
+                    <div style={{height:'20px'}}/>
                     <DropdownPagesPeople/>
                     <div style={{height:'20px'}}/>
                     <div className="search-wrapper">
-                        <InputText className="input-text" onKeyDown={this.onKeyDown} onChange={this.onSearchChange} value={this.state.searchText}/>
+                        <InputText className="input-text" onKeyDown={this.onKeyDown} onChange={this.onSearchChange} value={this.state.searchText} placeholder="filter..."/>
                         <Button className="search-button" onClick={this.onSearchClick}>Search</Button>
                     </div>
-                    <Posts/>
                     <style jsx>{`
                         .search-wrapper{
                             display: flex;
@@ -52,6 +50,10 @@ class Search extends React.Component{
                         .index-page :global( .input-text){
                             width: 100%;
                             flex-grow: 1;
+                        }
+                        .index-page :global( .input-text::placeholder){
+                            font-style: italic;
+                            color:#ccc;
                         }
                         .index-page :global( .search-button){
                             margin-left: 2px;

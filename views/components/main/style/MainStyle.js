@@ -5,7 +5,7 @@ export default () => <style jsx global>{`
         {/* font-family: "Lato",Arial,Helvetica,sans-serif !important; */}
         {/* font-family: Helvetica, Arial, sans-serif !important; */}
         font-family: SF Optimized, system-ui, -apple-system, BlinkMacSystemFont, '.SFNSText-Regular', sans-serif !important;
-        background-color: #e9ebee;
+        {/* background-color: #e9ebee; */}
     }
     .container {
         padding-right: 15px;

@@ -5,7 +5,7 @@ import { reduxPage } from '../views/redux/store'
 import Layout from '~/views/components/main/Layout'
 import Button from '~/views/components/shareComponent/button/Button'
 import Search from '~/views/components/index/search/Search'
-
+import Posts from '~/views/components/index/search/post/Posts'
 
 import FBFeed from '~/views/libs/facebookGraphAPI/FBFeed'
 
@@ -31,17 +31,15 @@ class Index extends React.Component {
 
     render() {
         return <Layout>
-            <div className="container">
-                <div className="landing">
-                    <img src="/static/images/googlelogo_color_272x92dp.png" alt="" className="flex-child logo-icon"/>
-                </div>
-            </div>
+            <div className="container landing">
+                <img src="/static/images/googlelogo_color_272x92dp.png" alt="" className="flex-child logo-icon"/>
                 {this.loginOrSearch()}
+            </div>
+            { this.props.status === LoginAction.CONNECTED ? <Posts/> : ''}
                     <style jsx>{`
                                 .landing{
                                     display: flex;
                                     flex-direction: column;
-                                    margin-top: 89px;
                                 }
                                 .space{
                                     height: 200px;
@@ -50,7 +48,7 @@ class Index extends React.Component {
                                     align-self: center;
                                 }
                                 .logo-icon{
-                                    padding-top: 109px;
+                                    padding-top: 40px;
                                 }
                                 .landing :global(.login-button){
                                     margin-top: 40px;

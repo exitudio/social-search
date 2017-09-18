@@ -6,7 +6,8 @@ export const LOAD_FAIL_STATUS = 'loading'
 const defaultState = {
     loadStatus: NO_LOAD_STAUTS,
     pages: [],
-    searchWords: ''
+    searchWords: '',
+    loadPages:null,
 }
 const FBPageReducer = (state=defaultState, action)=>{
     switch(action.type){

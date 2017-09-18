@@ -34,6 +34,9 @@ export default class InputText extends React.Component {
             this.props.onKeyDown(e)
         }
     }
+    getValue = ()=>{
+        return this.state.value
+    }
     render() {
         return <input className={`${this.props.className || ''} input-text`}
                             onChange={this.onChange}

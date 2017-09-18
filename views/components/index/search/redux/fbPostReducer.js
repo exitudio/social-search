@@ -4,6 +4,13 @@ const initialState = {
     loadPosts: null,
     foundPosts: [],
     search: '',
+
+    //navigator
+    currentPage: 0,
+    totalPage: 0,
+    postPerPage: 10,
+    startPostIndex:0,
+
 }
 
 const fbPostReducer = (state=initialState, action)=>{
@@ -16,16 +23,30 @@ const fbPostReducer = (state=initialState, action)=>{
             }
         }
         case FBPostAction.SEARCH_POST:{
+            const foundPosts = action.payload.foundPosts
             return {
                 ...state,
-                foundPosts: action.payload.foundPosts,
+                foundPosts,
                 search: action.payload.search,
+                totalPage: Math.ceil(foundPosts.length/ state.postPerPage),
+                currentPage: 0,
+                startPostIndex: 0,
             }
         }
         case FBPostAction.FOUND_NEW_SEARCH_POST:{
+            const foundPosts = [...state.foundPosts, ...action.payload]
             return {
                 ...state,
-                foundPosts: [...state.foundPosts, ...action.payload]
+                foundPosts,
+                totalPage: Math.ceil(foundPosts.length/ state.postPerPage),
+            }
+        }
+        case FBPostAction.GOTO_PAGE: {
+            const currentPage = action.payload
+            return {
+                ...state, 
+                currentPage,
+                startPostIndex: currentPage * state.postPerPage,
             }
         }
         default:

@@ -5,7 +5,7 @@ export const ADD_FB_PAGES = 'add_fb_pages'
 
 
 
-export default class LoadOnce{
+export default class LoadPages{
     constructor(){
         this.active = true
     }
@@ -30,26 +30,31 @@ export default class LoadOnce{
     }
 }
 
-let lastLoad
 
 export const loadFBPageAction = (searchWords) => {
     return (dispatch, getState) => {
         console.log('searchWords', searchWords)
+        let loadPages = getState().fbPageReducer.loadPages
+        if(loadPages) loadPages.active = false
+            
         if (searchWords !== '') {
-            dispatch({ type: LOADING_FB_PAGES, payload: searchWords })
-            if(lastLoad) lastLoad.active = false
-            lastLoad = new LoadOnce()
-            return lastLoad.getPromise(searchWords)
+            loadPages = new LoadPages()
+            dispatch({ 
+                type: LOADING_FB_PAGES, 
+                payload: {
+                    searchWords,
+                    loadPages,
+                }})
+            return loadPages.getPromise(searchWords)
                 .then(response => {
                     dispatch({ type: ADD_FB_PAGES, payload: response.data })
                 })
                 .catch(response => {
-                    console.log('LOAD FAIL ....', response)
+                    console.log('LOAD PAGE FAIL ....', response)
                     dispatch({ type: LOAD_FAIL_FB_PAGES, })
                 })
         } else {
             console.log('_____ clear _____')
-            if(lastLoad) lastLoad.active = false
             const loginState = getState().loginReducer
             dispatch({ type: CLEAR_SEARCH, 
                 payload: [{

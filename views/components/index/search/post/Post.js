@@ -22,6 +22,10 @@ class Post extends React.Component{
       
         return day + ' ' + monthNames[monthIndex] + ' ' + year + ' at ' + ("0"+hours).slice(-2) + ":" + ("0"+minutes).slice(-2)
       }
+    getDomain = string=>{
+        const matches = string.match(/^https?:\/\/(?:www\.)?([^/?#]+)(?:[/?#]|$)/i)
+        return matches && matches[1] ? matches[1] : ''
+    }
 
     getContent = ()=>{
         if(this.props.post.parent_id && this.props.loadPosts && this.props.loadPosts.sharedPosts){
@@ -40,6 +44,7 @@ class Post extends React.Component{
                 <div className="text">
                     <div className="link-head">{this.props.post.name}</div>
                     <div className="link-description">{this.props.post.description}</div>
+                    <div className="link-url">{this.getDomain(this.props.post.link).substring(0,40)}</div>
                 </div>
             </a>
         }else if(this.props.post.full_picture){
@@ -172,6 +177,13 @@ class Post extends React.Component{
                     overflow: hidden;
                     font-size: 12px;
                     word-wrap: break-word;
+                }
+                .post :global(.link-url){
+                    font-size: 11px;
+                    line-height: 11px;
+                    text-transform: uppercase;
+                    color: #90949c;
+                    padding-top: 9px;
                 }
                 `}</style>
             </div>
