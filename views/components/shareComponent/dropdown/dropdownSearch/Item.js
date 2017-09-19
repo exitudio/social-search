@@ -51,7 +51,7 @@ class Item extends React.Component{
                             margin: 0 20px;
                             border-top: 1px solid;
                             border-color:${ConfigStyle.grayMid};
-                            line-height: 51px;
+                            {/* line-height: 51px; */}
                             height: 51px;
                             box-sizing: border-box;
                         }

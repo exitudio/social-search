@@ -23,7 +23,9 @@ class DropdownPagesPeople extends React.Component{
         return this.props.pages.map( (item, i)=>({
             name: item.name,
             node: <div className="child-item" key={i}>
-                        <img className="image" src={item.picture.data.url} alt=""/>
+                        <div className="image-frame">
+                            <img className="image" src={item.picture.data.url} alt=""/>
+                        </div>
                         <div className="item-name">{item.name}</div>
                     </div>
         }))
@@ -38,8 +40,24 @@ class DropdownPagesPeople extends React.Component{
                             box-sizing: border-box;
                             align-items: center;
                         }
+                        .dropdown-page :global(.image-frame){
+                            width: 50px;
+                            height: 50px;
+                            overflow: hidden;
+                            position: relative;
+                        }
                         .dropdown-page :global(.image){
-                            height:100%;
+                            position: absolute;
+                            margin: auto; 
+                            max-height: 50px;
+                            {/* min-width: 50px; */}
+
+                            /* For the following settings we set 100%, but it can be higher if needed 
+                            See the answer's update */
+                            left: -100%;
+                            right: -100%;
+                            top: -100%;
+                            bottom: -100%;
                         }
                         .dropdown-page :global(.item-name){
                             margin-left: 20px;
