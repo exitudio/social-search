@@ -79,51 +79,55 @@ class Navigator extends React.Component{
         if(this.props.totalPage <= 0){
             return ''
         }else{
-            return (<div className="nav">
-                        <div className="button" onClick={this.onClickPrev}>{'<'}</div>
-                        {this.getPageButtons()}
-                        <div className="button" onClick={this.onClickNext}>></div>
-                    </div>)
+            return (<div>
+                        <div className="nav">
+                            <div className="button" onClick={this.onClickPrev}>{'<'}</div>
+                            {this.getPageButtons()}
+                            <div className="button" onClick={this.onClickNext}>></div>
+                        </div>
+                        <form className="nav" onSubmit={this.onSubmit}>
+                            <div className="text">Goto Page</div>
+                            <InputText ref={child=>this.textInput = child} className="page-input" onChange={this.inputPageChange} value={this.state.pageValue}/>
+                            <div className="text">/{this.props.totalPage}</div>
+                            <input type="submit" className={`button`} value="GO"></input>
+                        </form>
+                    </div>
+                    )
         }
     }
     render(){
         return <div className="page-navigator">
-            {this.getPageButtonsWithArrows()}
-            <form className="nav" onSubmit={this.onSubmit}>
-                <div className="text">Goto Page</div>
-                <InputText ref={child=>this.textInput = child} className="page-input" onChange={this.inputPageChange} value={this.state.pageValue}/>
-                <div className="text">/{this.props.totalPage}</div>
-                <input type="submit" className={`button`} value="GO"></input>
-            </form>
-            <style jsx>{`
-                .page-navigator :global(.nav){
-                    width:100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items:center;
-                    margin-top:10px;
-                }
-                .page-navigator :global(.selected){
-                    background-color:${ConfigStyle.blueLight}
-                    border-color:${ConfigStyle.blueLight}
-                }
-                .page-navigator :global(.button){
-                    padding: 14px;
-                }
-                .text{
-                    font-size: 20px;
-                    padding: 10px;
-                    color: ${ConfigStyle.grayDark}
-                }
-                .page-navigator :global(.page-input){
-                    text-align: right;
-                    width:50px;
-                }
-                .page-navigator :global(input[type=submit]){
-                    font-size: 100%;
-                }
-                `}</style>
-        </div>
+                    {this.getPageButtonsWithArrows()}
+                    
+                    <style jsx>{`
+                        .page-navigator :global(.nav){
+                            width:100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items:center;
+                            margin-top:10px;
+                        }
+                        .page-navigator :global(.selected){
+                            background-color:${ConfigStyle.blueLight}
+                            border-color:${ConfigStyle.blueLight}
+                        }
+                        .page-navigator :global(.button){
+                            padding: 14px;
+                        }
+                        .page-navigator :global(.text){
+                            font-size: 20px;
+                            padding: 10px;
+                            color: ${ConfigStyle.grayDark}
+                        }
+                        .page-navigator :global(.page-input){
+                            text-align: right;
+                            width:50px;
+                        }
+                        .page-navigator :global(input[type=submit]){
+                            font-size: 100%;
+                        }
+                        `}</style>
+                </div>
     }
 }
 const mapStateToProps = state=>{

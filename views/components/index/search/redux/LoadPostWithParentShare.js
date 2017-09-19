@@ -65,7 +65,7 @@ export default class LoadPostWithParentShare{
                         console.log('________________________________________')
 
                         //check length of posts array
-                        const isPostsLessThan4000 = this.allPosts.length < 100
+                        const isPostsLessThan4000 = this.allPosts.length < 4000
 
                         if( result.paging && result.paging.next && isPostsLessThan4000 ){
                             // console.log('next',result.paging.next)

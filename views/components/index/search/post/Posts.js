@@ -7,23 +7,27 @@ class Posts extends React.Component{
         console.log('update...')
     }
     render(){
-        return <div>
+        return <div className="posts-wrapper">
                     <Navigator/>
-                <div className="posts-container">
-                    {this.props.foundPosts.slice( this.props.startPostIndex, 
-                     this.props.startPostIndex + this.props.postPerPage).map( (post,i)=>{
-                        return <Post key={i} post={post} isMain id={this.props.startPostIndex+i}/>
-                    })}
+                    <div className="posts-container">
+                        {this.props.foundPosts.slice( this.props.startPostIndex, 
+                        this.props.startPostIndex + this.props.postPerPage).map( (post,i)=>{
+                            return <Post key={i} post={post} isMain id={this.props.startPostIndex+i}/>
+                        })}
+                    </div>
+                    <Navigator/>
                     <style jsx>{`
-                        .posts-container{
-                            display: flex;
-                            flex-wrap: wrap;
-                            justify-content: center;
-                            align-items: flex-start;
-                        }
-                        `}</style>
-                </div>
-        </div>
+                    .posts-wrapper{
+                        margin-bottom: 80px;
+                    }
+                    .posts-container{
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        align-items: flex-start;
+                    }
+                    `}</style>
+            </div>
     }
 }
 
