@@ -137,7 +137,7 @@ class DropdownSearch extends React.Component {
                             cursor: pointer;
                             padding:1px 6px 1px 6px;
                             height:52px;
-                            line-height: 52px; 
+                            {/* line-height: 52px;  */}
                             box-sizing: border-box;
                             font-size: 20px;
                         }
