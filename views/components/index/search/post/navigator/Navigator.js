@@ -40,7 +40,13 @@ class Navigator extends React.Component{
     }
     getPageButtons = ()=>{
         let startIndex = this.props.currentPage > 3 ? this.props.currentPage-3 : 0
-        let endIndex =  startIndex + 6 < this.props.totalPage-1 ? startIndex + 6 : this.props.totalPage-1
+        let endIndex
+        if(startIndex + 6 < this.props.totalPage-1){
+            endIndex = startIndex + 6
+        }else{
+            endIndex = this.props.totalPage-1
+            startIndex = this.props.totalPage-1-6 < 0 ? 0 : this.props.totalPage-1-6
+        }
         let buttons = []
 
         for(let i=startIndex; i<=endIndex; i++){
@@ -69,13 +75,20 @@ class Navigator extends React.Component{
             pageValue: page+1,
         })
     }
+    getPageButtonsWithArrows = ()=>{
+        if(this.props.totalPage <= 0){
+            return ''
+        }else{
+            return (<div className="nav">
+                        <div className="button" onClick={this.onClickPrev}>{'<'}</div>
+                        {this.getPageButtons()}
+                        <div className="button" onClick={this.onClickNext}>></div>
+                    </div>)
+        }
+    }
     render(){
-        return <div>
-            <div className="nav">
-                <div className="button" onClick={this.onClickPrev}>{'<'}</div>
-                {this.getPageButtons()}
-                <div className="button" onClick={this.onClickNext}>></div>
-            </div>
+        return <div className="page-navigator">
+            {this.getPageButtonsWithArrows()}
             <form className="nav" onSubmit={this.onSubmit}>
                 <div className="text">Goto Page</div>
                 <InputText ref={child=>this.textInput = child} className="page-input" onChange={this.inputPageChange} value={this.state.pageValue}/>
@@ -83,18 +96,18 @@ class Navigator extends React.Component{
                 <input type="submit" className={`button`} value="GO"></input>
             </form>
             <style jsx>{`
-                .nav{
+                .page-navigator :global(.nav){
                     width:100%;
                     display: flex;
                     justify-content: center;
                     align-items:center;
                     margin-top:10px;
                 }
-                .nav :global(.selected){
+                .page-navigator :global(.selected){
                     background-color:${ConfigStyle.blueLight}
                     border-color:${ConfigStyle.blueLight}
                 }
-                .nav :global(.button){
+                .page-navigator :global(.button){
                     padding: 14px;
                 }
                 .text{
@@ -102,11 +115,11 @@ class Navigator extends React.Component{
                     padding: 10px;
                     color: ${ConfigStyle.grayDark}
                 }
-                .nav :global(.page-input){
+                .page-navigator :global(.page-input){
                     text-align: right;
                     width:50px;
                 }
-                .nav :global(input[type=submit]){
+                .page-navigator :global(input[type=submit]){
                     font-size: 100%;
                 }
                 `}</style>
